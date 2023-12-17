@@ -73,4 +73,15 @@ public class CartService {
 	        cartRepository.delete(cart);
 			
 		}
+
+		// CartService.java
+
+		public void clearCart(User user) {
+		    List<Cart> cartList = cartRepository.findAllByUser(user);
+
+		    for (Cart cart : cartList) {
+		        cartRepository.delete(cart);
+		    }
+		}
+
 }
