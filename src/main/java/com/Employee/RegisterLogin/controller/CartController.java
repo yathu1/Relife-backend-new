@@ -96,4 +96,27 @@ public class CartController {
 	        return new ResponseEntity<>(new ApiResponse(true, "Item has been removed"), HttpStatus.OK);
 
 	    }
+	  
+	// CartController.java
+
+	  @DeleteMapping("/clear")
+	  public ResponseEntity<ApiResponse> clearCart(@RequestParam("token") String token) {
+	      // authenticate the token
+	      try {
+	          authenticationService.authenticate(token);
+	      } catch (AuthenticationFailException e) {
+	          e.printStackTrace();
+	          return new ResponseEntity<>(new ApiResponse(false, "Authentication failed"), HttpStatus.UNAUTHORIZED);
+	      }
+
+	      // find the user
+	      User user = authenticationService.getUser(token);
+
+	      // clear the cart
+	      cartService.clearCart(user);
+
+	      return new ResponseEntity<>(new ApiResponse(true, "Cart cleared successfully"), HttpStatus.OK);
+	  }
+
+	  
 }
